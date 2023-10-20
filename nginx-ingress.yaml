@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-resource
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: <MAIN_DOMAIN>
+    http:
+      paths:
+      - pathType: ImplementationSpecific
+        path: "/d1(/|$)(.*)"
+        backend:
+          service:
+            name: d1
+            port:
+              number: 80
+      - pathType: ImplementationSpecific
+        path: "/d2(/|$)(.*)"
+        backend:
+          service:
+            name: d2
+            port:
+              number: 80

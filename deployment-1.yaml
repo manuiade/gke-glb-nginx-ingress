@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: d1
+spec:
+  selector:
+    matchLabels:
+      app: d1
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: d1
+    spec:
+      containers:
+      - name: d1
+        image: "gcr.io/google-samples/node-hello:1.0"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: d1
+spec:
+  type: ClusterIP
+  selector:
+    app: d1
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8080

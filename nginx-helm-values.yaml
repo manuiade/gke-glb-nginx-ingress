@@ -1,0 +1,15 @@
+controller:
+  config:
+    entries: {
+      'log-format' : '$remote_addr - $request_id - [$proxy_add_x_forwarded_for] - $remote_user [$time_local] "$request" $status $body_bytes_sent "$http_referer" "$http_user_agent" $request_length $request_time [$proxy_upstream_name] $upstream_addr $upstream_response_length $upstream_response_time $upstream_status'
+    }
+  name: nginx-ingress
+  allowSnippetAnnotations: true
+  service:
+    annotations: 
+      cloud.google.com/neg: '{"ingress": true}'
+      cloud.google.com/backend-config: '{ "ports" : {"80" : "nginx-ingress-hc-config"}}'
+    type: ClusterIP
+    enableHttps: false
+  replicaCount: 1
+  logLevel: 3
